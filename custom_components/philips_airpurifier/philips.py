@@ -150,6 +150,84 @@ class PhilipsGenericControlBase(PhilipsEntity):
         self._available_preset_modes = preset_modes
         self._preset_modes = list(self._available_preset_modes.keys())
 
+    def _format_attribute_name(self, key: str) -> str:
+        """Convert technical attribute names to user-friendly format."""
+        # Mapping of technical names to user-friendly names
+        name_mapping = {
+            "rssi": "Signal Strength",
+            "error_code": "Device Status",
+            "wifi_version": "WiFi Firmware Version",
+            "software_version": "Software Version",
+            "device_version": "Device Version",
+            "model_id": "Model ID",
+            "product_id": "Product ID",
+            "device_id": "Device ID",
+            "preferred_index": "Preferred Air Quality Index",
+            "runtime": "Total Runtime",
+            "pm25": "PM2.5 Level",
+            "tvoc": "TVOC Level",
+            "temperature": "Temperature",
+            "humidity": "Humidity",
+            "language": "Language",
+            "type": "Device Type",
+            "name": "Device Name",
+        }
+
+        # Use mapping if available, otherwise format the key
+        if key.lower() in name_mapping:
+            return name_mapping[key.lower()]
+
+        # Convert snake_case to Title Case
+        return key.replace("_", " ").title()
+
+    def _format_attribute_value(self, key: str, value: Any) -> Any:
+        """Format attribute values to be user-friendly."""
+        if value is None:
+            return "N/A"
+
+        # Handle boolean values
+        if isinstance(value, bool):
+            return "Yes" if value else "No"
+
+        # Handle error codes
+        if key.lower() == "error_code":
+            if isinstance(value, (int, str)):
+                error_code = int(value) if str(value).isdigit() else 0
+                if error_code == 0:
+                    return "Normal Operation"
+                else:
+                    return f"Error Code: {error_code}"
+
+        # Handle signal strength
+        if key.lower() == "rssi" and isinstance(value, (int, float)):
+            rssi_val = int(value)
+            if rssi_val >= -50:
+                return f"{rssi_val} dBm (Excellent)"
+            elif rssi_val >= -60:
+                return f"{rssi_val} dBm (Good)"
+            elif rssi_val >= -70:
+                return f"{rssi_val} dBm (Fair)"
+            else:
+                return f"{rssi_val} dBm (Poor)"
+
+        # Handle temperature values
+        if key.lower() == "temperature" and isinstance(value, (int, float)):
+            return f"{value}°C"
+
+        # Handle humidity values
+        if key.lower() == "humidity" and isinstance(value, (int, float)):
+            return f"{value}%"
+
+        # Handle PM2.5 values
+        if key.lower() == "pm25" and isinstance(value, (int, float)):
+            return f"{value} µg/m³"
+
+        # Handle numeric values - round to reasonable precision
+        if isinstance(value, float):
+            return round(value, 2)
+
+        return value
+
     @property
     def extra_state_attributes(self) -> Mapping[str, Any] | None:
         """Return the extra state attributes."""
@@ -171,7 +249,11 @@ class PhilipsGenericControlBase(PhilipsEntity):
                         value = value[0]
                 elif callable(value_map):
                     value = value_map(value, self._device_status)
-                attributes.update({key: value})
+
+                # Format the attribute name and value for better user experience
+                formatted_key = self._format_attribute_name(key)
+                formatted_value = self._format_attribute_value(key, value)
+                attributes.update({formatted_key: formatted_value})
 
         device_attributes = {}
 
@@ -844,7 +926,7 @@ class PhilipsAC2729(PhilipsGenericFan):
             PhilipsApi.SPEED: "t",
         },
     }
-    AVAILABLE_SWITCHES = [PhilipsApi.CHILD_LOCK]
+    AVAILABLE_SWITCHES = [PhilipsApi.CHILD_LOCK, PhilipsApi.BEEP]
     AVAILABLE_SELECTS = [PhilipsApi.PREFERRED_INDEX]
     AVAILABLE_HUMIDIFIERS = [PhilipsApi.HUMIDITY_TARGET]
     AVAILABLE_BINARY_SENSORS = [PhilipsApi.ERROR_CODE]
@@ -1224,6 +1306,7 @@ class PhilipsAC3420(PhilipsAC0950):
 
     AVAILABLE_SELECTS = [PhilipsApi.NEW2_LAMP_MODE]
     AVAILABLE_HUMIDIFIERS = [PhilipsApi.NEW2_HUMIDITY_TARGET]
+    AVAILABLE_BINARY_SENSORS = ["AC3420_WATER_LEVEL"]
 
 
 class PhilipsAC3421(PhilipsAC3420):
@@ -1520,7 +1603,12 @@ class PhilipsAC385886(PhilipsAC385x51):
 class PhilipsAC4220(PhilipsAC32xx):
     """AC4220."""
 
-    AVAILABLE_SELECTS = [PhilipsApi.NEW2_GAS_PREFERRED_INDEX]
+    # Override parent selects completely to prevent duplicate preferred_index entities
+    AVAILABLE_SELECTS = [
+        PhilipsApi.NEW2_TIMER2,
+        PhilipsApi.NEW2_LAMP_MODE,
+        PhilipsApi.NEW2_PREFERRED_INDEX,  # Use basic version only
+    ]
 
 
 class PhilipsAC4221(PhilipsAC4220):

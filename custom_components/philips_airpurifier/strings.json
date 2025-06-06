@@ -273,5 +273,31 @@
         "name": "Target temperature"
       }
     }
+  },
+  "issues": {
+    "deprecated_dhcp_service_info": {
+      "title": "Deprecated DhcpServiceInfo usage",
+      "description": "The integration is using deprecated DhcpServiceInfo. Please update to the latest version."
+    },
+    "connectivity_issue": {
+      "title": "Air Purifier Connectivity Issue",
+      "description": "Your air purifier device is not responding to network requests. This may be due to network connectivity issues, device power state, or IP address changes. Click 'Fix' to attempt automatic resolution."
+    },
+    "entity_registry_cleanup": {
+      "title": "Entity Registry Cleanup Required",
+      "description": "Orphaned or duplicate entities have been detected in the entity registry. This can happen after device reconfigurations or integration updates. Click 'Fix' to clean up automatically."
+    },
+    "filter_replacement_warning": {
+      "title": "Filter Replacement Required",
+      "description": "One or more filters in your air purifier need attention. Check the filter status sensors for replacement or cleaning requirements. Click 'Fix' to acknowledge this warning."
+    },
+    "configuration_migration": {
+      "title": "Configuration Migration Required",
+      "description": "Your integration configuration needs to be updated to support new features. This migration will update your configuration automatically without losing any settings."
+    },
+    "duplicate_entities": {
+      "title": "Duplicate Entities Detected",
+      "description": "Duplicate entities have been detected. This typically happens when entity unique IDs conflict. Click 'Fix' to remove duplicate entities automatically."
+    }
   }
 }

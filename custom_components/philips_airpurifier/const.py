@@ -391,6 +391,7 @@ class PhilipsApi:
     WATER_LEVEL = "wl"
     WIFI_VERSION = "WifiVersion"
     RSSI = "rssi"
+    BEEP = "uil"  # Sound/beep control for older models like AC2729
 
     POWER_MAP = {
         SWITCH_ON: "1",
@@ -605,7 +606,6 @@ SENSOR_TYPES: dict[str, SensorDescription] = {
     PhilipsApi.TOTAL_VOLATILE_ORGANIC_COMPOUNDS: {
         ATTR_DEVICE_CLASS: SensorDeviceClass.VOLATILE_ORGANIC_COMPOUNDS,
         FanAttributes.LABEL: FanAttributes.TOTAL_VOLATILE_ORGANIC_COMPOUNDS,
-        FanAttributes.UNIT: CONCENTRATION_MICROGRAMS_PER_CUBIC_METER,
         ATTR_STATE_CLASS: SensorStateClass.MEASUREMENT,
     },
     PhilipsApi.HUMIDITY: {
@@ -727,6 +727,15 @@ BINARY_SENSOR_TYPES: dict[str, SensorDescription] = {
         FanAttributes.LABEL: FanAttributes.HUMIDIFICATION,
         FanAttributes.VALUE: lambda value: value == 4,
     },
+    "AC3420_WATER_LEVEL": {
+        # AC3420 specific water level detection using D0310A and D03240
+        FanAttributes.LABEL: FanAttributes.WATER_TANK,
+        ATTR_DEVICE_CLASS: SensorDeviceClass.MOISTURE,
+        FanAttributes.VALUE: lambda status: (
+            status.get("D0310A", 0) == 16 and status.get("D03240", 0) == 0
+        ),
+        CONF_ENTITY_CATEGORY: EntityCategory.DIAGNOSTIC,
+    },
 }
 
 FILTER_TYPES: dict[str, FilterDescription] = {
@@ -798,6 +807,12 @@ SWITCH_TYPES: dict[str, SwitchDescription] = {
         CONF_ENTITY_CATEGORY: EntityCategory.CONFIG,
         SWITCH_ON: True,
         SWITCH_OFF: False,
+    },
+    PhilipsApi.BEEP: {
+        FanAttributes.LABEL: FanAttributes.BEEP,
+        CONF_ENTITY_CATEGORY: EntityCategory.CONFIG,
+        SWITCH_ON: "1",
+        SWITCH_OFF: "0",
     },
     PhilipsApi.NEW2_CHILD_LOCK: {
         FanAttributes.LABEL: FanAttributes.CHILD_LOCK,

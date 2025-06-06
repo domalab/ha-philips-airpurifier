@@ -11,12 +11,55 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import ATTR_DEVICE_CLASS, CONF_ENTITY_CATEGORY
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import Entity
+from homeassistant.helpers.entity_registry import async_get as async_get_entity_registry
 
 from .config_entry_data import ConfigEntryData
 from .const import DOMAIN, OPTIONS, SELECT_TYPES, FanAttributes
 from .philips import PhilipsEntity, model_to_class
 
 _LOGGER = logging.getLogger(__name__)
+
+
+async def _remove_duplicate_preferred_index_entity(
+    hass: HomeAssistant, config_entry_data: ConfigEntryData
+) -> None:
+    """Remove duplicate preferred index entity if it exists."""
+    try:
+        entity_registry = async_get_entity_registry(hass)
+        device_id = config_entry_data.device_information.device_id
+        model = config_entry_data.device_information.model
+
+        # Look for the basic preferred_index entity (without gas support)
+        device_name = config_entry_data.device_information.name.lower().replace(' ', '_')
+        duplicate_entity_id = f"select.{device_name}_preferred_index"
+
+        # Check if the duplicate entity exists in the registry
+        entity_entry = entity_registry.async_get(duplicate_entity_id)
+        if entity_entry:
+            # Check if this is the basic version by looking at unique_id pattern
+            # The basic version should have "d0312a#1" while gas version has "d0312a#2"
+            if entity_entry.unique_id and "#1" in entity_entry.unique_id:
+                _LOGGER.info(
+                    "Removing duplicate preferred index entity: %s (keeping gas-enabled version)",
+                    duplicate_entity_id
+                )
+                entity_registry.async_remove(duplicate_entity_id)
+                return
+
+        # Alternative approach: look for any entity with the basic preferred index unique_id pattern
+        for entity_id, entry in entity_registry.entities.items():
+            if (entry.platform == "philips_airpurifier_coap" and
+                entry.unique_id and
+                f"{model}-{device_id}-d0312a#1".lower() in entry.unique_id.lower()):
+                _LOGGER.info(
+                    "Removing duplicate preferred index entity by unique_id: %s",
+                    entity_id
+                )
+                entity_registry.async_remove(entity_id)
+                break
+
+    except Exception as e:
+        _LOGGER.warning("Could not remove duplicate entity: %s", e)
 
 
 async def async_setup_entry(
@@ -30,6 +73,10 @@ async def async_setup_entry(
 
     model = config_entry_data.device_information.model
 
+    # Remove duplicate preferred index entity for AC4220 models
+    if model == "AC4220/12":
+        await _remove_duplicate_preferred_index_entity(hass, config_entry_data)
+
     model_class = model_to_class.get(model)
     if model_class:
         available_selects = []
@@ -38,10 +85,29 @@ async def async_setup_entry(
             cls_available_selects = getattr(cls, "AVAILABLE_SELECTS", [])
             available_selects.extend(cls_available_selects)
 
+        # Remove duplicates while preserving order, prioritizing child class definitions
+        seen = set()
+        unique_selects = []
+        for select in reversed(available_selects):  # Reverse to prioritize child classes
+            if select not in seen:
+                seen.add(select)
+                unique_selects.append(select)
+        available_selects = list(reversed(unique_selects))  # Restore original order
+
+        # Filter out the basic preferred_index for AC4220 to prevent duplicates
+        filtered_selects = []
+        for select in SELECT_TYPES:
+            if select in available_selects:
+                # For AC4220, skip the basic preferred_index if gas version is available
+                if (model == "AC4220/12" and
+                    select == PhilipsApi.NEW2_PREFERRED_INDEX and
+                    PhilipsApi.NEW2_GAS_PREFERRED_INDEX in available_selects):
+                    continue
+                filtered_selects.append(select)
+
         selects = [
             PhilipsSelect(hass, entry, config_entry_data, select)
-            for select in SELECT_TYPES
-            if select in available_selects
+            for select in filtered_selects
         ]
 
         async_add_entities(selects, update_before_add=False)

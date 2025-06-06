@@ -206,16 +206,125 @@ class PhilipsFilterSensor(PhilipsEntity, SensorEntity):
             return self._percentage
         return self._time_remaining
 
+    def _format_filter_time_remaining(self, hours: int) -> str:
+        """Format time remaining in a user-friendly way."""
+        if hours <= 0:
+            return "Replace immediately"
+
+        days = hours // 24
+        remaining_hours = hours % 24
+
+        if days >= 365:
+            years = days // 365
+            remaining_days = days % 365
+            if years == 1 and remaining_days == 0:
+                return "1 year remaining"
+            elif remaining_days == 0:
+                return f"{years} years remaining"
+            else:
+                return f"{years} year{'s' if years > 1 else ''}, {remaining_days} day{'s' if remaining_days != 1 else ''} remaining"
+        elif days >= 30:
+            months = days // 30
+            remaining_days = days % 30
+            if months == 1 and remaining_days == 0:
+                return "1 month remaining"
+            elif remaining_days == 0:
+                return f"{months} months remaining"
+            else:
+                return f"{months} month{'s' if months > 1 else ''}, {remaining_days} day{'s' if remaining_days != 1 else ''} remaining"
+        elif days >= 7:
+            weeks = days // 7
+            remaining_days = days % 7
+            if weeks == 1 and remaining_days == 0:
+                return "1 week remaining"
+            elif remaining_days == 0:
+                return f"{weeks} weeks remaining"
+            else:
+                return f"{weeks} week{'s' if weeks > 1 else ''}, {remaining_days} day{'s' if remaining_days != 1 else ''} remaining"
+        elif days > 0:
+            if days == 1 and remaining_hours == 0:
+                return "1 day remaining"
+            elif remaining_hours == 0:
+                return f"{days} days remaining"
+            else:
+                return f"{days} day{'s' if days != 1 else ''}, {remaining_hours} hour{'s' if remaining_hours != 1 else ''} remaining"
+        else:
+            if hours == 1:
+                return "1 hour remaining"
+            else:
+                return f"{hours} hours remaining"
+
+    def _format_filter_total_capacity(self, hours: int) -> str:
+        """Format total filter capacity in a user-friendly way."""
+        days = hours // 24
+
+        if days >= 365:
+            years = days // 365
+            remaining_days = days % 365
+            if remaining_days == 0:
+                return f"{years} year{'s' if years != 1 else ''} capacity"
+            else:
+                return f"{years} year{'s' if years != 1 else ''}, {remaining_days} day{'s' if remaining_days != 1 else ''} capacity"
+        elif days >= 30:
+            months = days // 30
+            remaining_days = days % 30
+            if remaining_days == 0:
+                return f"{months} month{'s' if months != 1 else ''} capacity"
+            else:
+                return f"{months} month{'s' if months != 1 else ''}, {remaining_days} day{'s' if remaining_days != 1 else ''} capacity"
+        else:
+            return f"{days} day{'s' if days != 1 else ''} capacity"
+
     @property
     def extra_state_attributes(self) -> dict[str, Any]:
         """Return the extra state attributes of the filter sensor."""
+        attrs = {}
+
+        # Add filter type if available
         if self._type_key in self._device_status:
-            self._attrs[FanAttributes.TYPE] = self._device_status[self._type_key]
-        # self._attrs[ATTR_RAW] = self._value
+            filter_type = self._device_status[self._type_key]
+            if filter_type:
+                attrs["Filter Type"] = filter_type
+
+        # Add formatted attributes based on whether we have total capacity info
         if self._has_total:
-            self._attrs[FanAttributes.TOTAL] = self._total
-            self._attrs[FanAttributes.TIME_REMAINING] = self._time_remaining
-        return self._attrs
+            # Format total capacity
+            total_hours = self._total
+            attrs["Total Filter Capacity"] = self._format_filter_total_capacity(total_hours)
+
+            # Format time remaining
+            remaining_hours = self._value
+            attrs["Filter Life Remaining"] = self._format_filter_time_remaining(remaining_hours)
+
+            # Add percentage for quick reference
+            percentage = round(100.0 * remaining_hours / total_hours)
+            attrs["Filter Life Percentage"] = f"{percentage}%"
+
+            # Add replacement recommendation
+            if percentage <= 5:
+                attrs["Replacement Status"] = "Replace immediately"
+            elif percentage <= 15:
+                attrs["Replacement Status"] = "Replace soon"
+            elif percentage <= 30:
+                attrs["Replacement Status"] = "Monitor closely"
+            else:
+                attrs["Replacement Status"] = "Good condition"
+        else:
+            # For filters without total capacity, just show time remaining
+            remaining_hours = self._value
+            attrs["Filter Life Remaining"] = self._format_filter_time_remaining(remaining_hours)
+
+            # Add replacement recommendation based on hours
+            if remaining_hours <= 24:
+                attrs["Replacement Status"] = "Replace immediately"
+            elif remaining_hours <= 72:
+                attrs["Replacement Status"] = "Replace soon"
+            elif remaining_hours <= 168:  # 1 week
+                attrs["Replacement Status"] = "Monitor closely"
+            else:
+                attrs["Replacement Status"] = "Good condition"
+
+        return attrs
 
     @property
     def _has_total(self) -> bool:

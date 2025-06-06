@@ -190,6 +190,18 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
+    # Schedule health check after setup is complete
+    async def _schedule_health_check():
+        """Schedule the health check after a delay to allow entities to be created."""
+        await asyncio.sleep(30)  # Wait for entities to be fully set up
+        try:
+            from .repairs import async_check_integration_health
+            await async_check_integration_health(hass, config_entry_data)
+        except Exception as ex:
+            _LOGGER.debug("Health check failed: %s", ex)
+
+    hass.async_create_task(_schedule_health_check())
+
     return True
 
 
