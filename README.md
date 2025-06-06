@@ -8,25 +8,25 @@
 [![Community Forum][community_forum_shield]][community_forum]
 [![GitHub Issues][issues_shield]][issues_link]
 
-[hacs_shield]: https://img.shields.io/static/v1.svg?label=HACS&message=Default&style=for-the-badge&color=green&labelColor=41bdf5&logo=HomeAssistantCommunityStore&logoColor=white
+[hacs_shield]: https://img.shields.io/badge/HACS-Default-green?style=flat-square
 [hacs]: https://hacs.xyz/docs/default_repositories
 
-[releases_shield]: https://img.shields.io/github/release/domalab/ha-philips-airpurifier.svg?style=for-the-badge&color=blue&labelColor=41bdf5&logoColor=white
+[releases_shield]: https://img.shields.io/github/release/domalab/ha-philips-airpurifier?style=flat-square&color=blue
 [latest_release]: https://github.com/domalab/ha-philips-airpurifier/releases/latest
 
-[ha_shield]: https://img.shields.io/static/v1.svg?label=Home%20Assistant&message=2025.1%2B&style=for-the-badge&color=blue&labelColor=41bdf5&logo=HomeAssistant&logoColor=white
+[ha_shield]: https://img.shields.io/badge/Home%20Assistant-2025.1%2B-blue?style=flat-square
 [ha_link]: https://www.home-assistant.io/
 
-[docs_shield]: https://img.shields.io/static/v1.svg?label=Documentation&message=DeepWiki&style=for-the-badge&color=purple&labelColor=41bdf5&logo=gitbook&logoColor=white
+[docs_shield]: https://deepwiki.com/badge.svg
 [docs_link]: https://deepwiki.com/domalab/ha-philips-airpurifier
 
-[license_shield]: https://img.shields.io/github/license/domalab/ha-philips-airpurifier.svg?style=for-the-badge&color=orange&labelColor=41bdf5&logoColor=white
+[license_shield]: https://img.shields.io/github/license/domalab/ha-philips-airpurifier?style=flat-square&color=orange
 [license_link]: https://github.com/domalab/ha-philips-airpurifier/blob/main/custom_components/philips_airpurifier/LICENSE.txt
 
-[community_forum_shield]: https://img.shields.io/static/v1.svg?label=Community&message=Forum&style=for-the-badge&color=41bdf5&labelColor=41bdf5&logo=HomeAssistant&logoColor=white
+[community_forum_shield]: https://img.shields.io/badge/Community-Forum-blue?style=flat-square
 [community_forum]: https://community.home-assistant.io/t/philips-air-purifier/53030
 
-[issues_shield]: https://img.shields.io/github/issues/domalab/ha-philips-airpurifier.svg?style=for-the-badge&color=red&labelColor=41bdf5&logoColor=white
+[issues_shield]: https://img.shields.io/github/issues/domalab/ha-philips-airpurifier?style=flat-square&color=red
 [issues_link]: https://github.com/domalab/ha-philips-airpurifier/issues
 
 A comprehensive **Local Push** integration for Philips air purifiers and humidifiers in Home Assistant. This integration provides complete control over your Philips air quality devices using the encrypted CoAP protocol for local communication.
