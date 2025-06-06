@@ -84,7 +84,7 @@ async def _get_system_info(hass: HomeAssistant, entry: ConfigEntry) -> dict[str,
     return {
         "home_assistant_version": hass.config.version,
         "python_version": sys.version,
-        "integration_version": "0.25.0",  # From manifest.json
+        "integration_version": "0.26.0",  # From manifest.json
         "domain": DOMAIN,
         "entry_id": entry.entry_id,
         "entry_title": entry.title,
