@@ -1,0 +1,25 @@
+{
+  "title": "Philips AirPurifier",
+  "config": {
+    "abort": {
+      "already_configured": "Dispozitiv deja configurat",
+      "model_unsupported": "Modelul nu este suportat",
+      "timeout": "Timeout, nu se poate conecta la dispozitiv"
+    },
+    "step": {
+      "user": {
+        "title": "Dispozitiv nou Philips AirPurifier",
+        "data": {
+          "host": "Numele de gazdă sau adresa IP a dispozitivului"
+        }
+      },
+      "confirm": {
+        "description": "Doriți să configurați {model} {name}?"
+      }
+    },
+    "error": {
+      "host": "Adresa dispozitivului este obligatorie",
+      "connect": "Nu se poate conecta la dispozitiv"
+    }
+  }
+}

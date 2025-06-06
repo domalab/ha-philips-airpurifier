@@ -1,0 +1,277 @@
+{
+  "title": "Philips AirPurifier",
+  "config": {
+    "abort": {
+      "already_configured": "Gerät is bereits konfiguriert",
+      "model_unsupported": "Modell nicht unterstützt",
+      "timeout": "Timeout, Verbindung zum Gerät nicht möglich"
+    },
+    "step": {
+      "user": {
+        "title": "Neuer Philips AirPurifier",
+        "data": {
+          "host": "Host Name des Geräts oder IP Addresse"
+        }
+      },
+      "confirm": {
+        "description": "Modell {model} {name} einrichten?"
+      }
+    },
+    "error": {
+      "host": "Adress des Geräts ist erforderlich",
+      "connect": "Verbindung zum Gerät nicht möglich"
+    }
+  },
+  "entity": {
+    "fan": {
+      "pap": {
+        "state_attributes": {
+          "preset_mode": {
+            "name": "Modus",
+            "state": {
+              "auto": "Auto",
+              "auto_general": "Auto/Allgemein",
+              "auto_plus": "Auto+",
+              "bacteria": "Bakterien",
+              "allergen": "Allergie",
+              "gentle": "Sanft",
+              "night": "Nacht",
+              "sleep": "Schlaf",
+              "sleep_allergy": "Schlaf/Allergie",
+              "turbo": "Turbo",
+              "medium": "Medium",
+              "gas": "Gas",
+              "pollution": "Verschmutzung",
+              "low": "Niedrig",
+              "high": "Hoch",
+              "ventilation": "Durchlüftung",
+              "natural": "Natürlich",
+              "speed_1": "Speed 1",
+              "gentle_speed_1": "Sanft/Speed 1",
+              "speed_2": "Speed 2",
+              "speed_3": "Speed 3",
+              "speed_4": "Speed 4",
+              "speed_5": "Speed 5",
+              "speed_6": "Speed 6",
+              "speed_7": "Speed 7",
+              "speed_8": "Speed 8",
+              "speed_9": "Speed 9",
+              "speed_10": "Speed 10"
+            }
+          }
+        }
+      }
+    },
+    "humidifier": {
+      "pap": {
+        "state": {
+          "on": "An",
+          "off": "Aus"
+        },
+        "state_attributes": {
+          "mode": {
+            "state": {
+              "purification": "Reinigung",
+              "purification_humidification": "Reinigung und Befeuchtung",
+              "auto": "Auto",
+              "allergen": "Allergie",
+              "sleep": "Schlaf",
+              "night": "Nacht",
+              "turbo": "Turbo",
+              "high": "Hoch",
+              "medium": "Medium",
+              "speed_1": "Speed 1",
+              "speed_2": "Speed 2",
+              "speed_3": "Speed 3"
+            }
+          },
+          "action": {
+            "state": {
+              "off": "Aus",
+              "humidifying": "Befeuchtung",
+              "idle": "Leerlauf"
+            }
+          },
+          "current_humidity": {
+            "name": "Aktuelle Luftfeuchtigkeit"
+          }
+        }
+      }
+    },
+    "climate": {
+      "pap": {
+        "name": "Heizlüfter",
+        "state": {
+          "off": "Aus",
+          "auto": "Auto",
+          "fan_only": "Belüftung",
+          "heat": "Heizung"
+        },
+        "state_attributes": {
+          "preset_mode": {
+            "name": "Voreinstellung",
+            "state": {
+              "auto": "Auto",
+              "high": "Hoch",
+              "medium": "Mittel",
+              "low": "Niedrig",
+              "ventilation": "Belüftung"
+            }
+          },
+          "swing_mode": {
+            "name": "Rotationsmodus",
+            "state": {
+              "on": "An",
+              "off": "Aus"
+            }
+          },
+          "current_temperature": {
+            "name": "Aktuelle Temperatur"
+          }
+        }
+      }
+    },
+    "binary_sensor": {
+      "water_tank": {
+        "name": "Wassertank",
+        "state": {
+          "on": "Gefüllt",
+          "off": "Leer"
+        }
+      },
+      "humidification": {
+        "name": "Luftbefeuchtung",
+        "state": {
+          "on": "An",
+          "off": "Aus"
+        }
+      }
+    },
+    "sensor": {
+      "indoor_allergen_index": {
+        "name": "Innenraum Allergie Index"
+      },
+      "pm25": {
+        "name": "PM2.5"
+      },
+      "gas": {
+        "name": "Gas"
+      },
+      "total_volatile_organic_compounds": {
+        "name": "Flüchtige organische Verbindungen insgesamt"
+      },
+      "humidity": {
+        "name": "Luftfeuchtigkeit"
+      },
+      "time_remaining": {
+        "name": "Verbleibende Zeit"
+      },
+      "temperature": {
+        "name": "Temperatur"
+      },
+      "water_level": {
+        "name": "Wasserstand"
+      },
+      "rssi": {
+        "name": "RSSI"
+      },
+      "pre_filter": {
+        "name": "Vorfilter"
+      },
+      "hepa_filter": {
+        "name": "HEPA Filter"
+      },
+      "active_carbon_filter": {
+        "name": "Aktivkohle Filter"
+      },
+      "wick": {
+        "name": "Befeuchtungselement"
+      },
+      "nanoprotect_filter": {
+        "name": "NanoProtect Filter"
+      }
+    },
+    "switch": {
+      "child_lock": {
+        "name": "Kindersicherung"
+      },
+      "beep": {
+        "name": "Piepton"
+      },
+      "standby_sensors": {
+        "name": "Standby Sensoren"
+      },
+      "auto_plus": {
+        "name": "Auto Plus"
+      },
+      "auto_quickdry_mode": {
+        "name": "Auto Schnelltrocknen Modus"
+      },
+      "quickdry_mode": {
+        "name": "Schnelltrocken Modus"
+      }
+    },
+    "light": {
+      "display_backlight": {
+        "name": "Hintergrundbeleuchtung"
+      },
+      "light_brightness": {
+        "name": "Helligkeit"
+      }
+    },
+    "select": {
+      "function": {
+        "name": "Funktion",
+        "state": {
+          "purification": "Reinigung",
+          "purification_humidification": "Reinigung und Befeuchtung",
+          "fan": "Lüfter",
+          "circulation": "Zirkulation",
+          "heating": "Heizung"
+        }
+      },
+      "lamp_mode": {
+        "name": "Lampen Modus",
+        "state": {
+          "off": "Aus",
+          "air_quality": "Luftqualität",
+          "ambient_light_mode": "Ambiente",
+          "humidity": "Lufteuchtigkeit"
+        }
+      },
+      "ambient_light_mode": {
+        "name": "Ambiente Modus",
+        "state": {
+          "off": "Aus",
+          "warm": "Warm",
+          "dawn": "Dämmerung",
+          "calm": "Ruhig",
+          "breath": "Atem"
+        }
+      },
+      "preferred_index": {
+        "name": "Vorzugsindex",
+        "state": {
+          "indoor_allergen_index": "Innenraum Allergie Index",
+          "pm25": "PM2.5",
+          "gas": "Gas"
+        }
+      },
+      "timer": {
+        "name": "Timer",
+        "state": {
+          "off": "Aus",
+          "on": "An"
+        }
+      }
+    },
+    "number": {
+      "oscillaton": {
+        "name": "Oszillation"
+      },
+      "target_temp": {
+        "name": "Ziel Temperature"
+      }
+    }
+  }
+}
