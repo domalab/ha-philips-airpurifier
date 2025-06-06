@@ -5,8 +5,8 @@
 [hacs_shield]: https://img.shields.io/static/v1.svg?label=HACS&message=Default&style=popout&color=green&labelColor=41bdf5&logo=HomeAssistantCommunityStore&logoColor=white
 [hacs]: https://hacs.xyz/docs/default_repositories
 
-[latest_release]: https://github.com/kongo09/philips-airpurifier-coap/releases/latest
-[releases_shield]: https://img.shields.io/github/release/kongo09/philips-airpurifier-coap.svg?style=popout
+[latest_release]: https://github.com/domalab/ha-philips-airpurifier/releases/latest
+[releases_shield]: https://img.shields.io/github/release/domalab/ha-philips-airpurifier.svg?style=popout
 
 [community_forum_shield]: https://img.shields.io/static/v1.svg?label=%20&message=Forum&style=popout&color=41bdf5&logo=HomeAssistant&logoColor=white
 [community_forum]: https://community.home-assistant.io/t/philips-air-purifier/53030
@@ -31,13 +31,9 @@ Philips has recently introduced a proper API to remote control the devices. Howe
  - The rework has been done by @Denaun at https://github.com/Denaun/philips-airpurifier-coap
  - Obviously, many other people contributed, notably @mhetzi, @Kraineff and @shexbeer
 
-## Coffee
-
-<a href="https://www.buymeacoffee.com/kongo09" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
-
 ## Install
 
-[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=kongo09&repository=philips-airpurifier-coap&category=integration)
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=domalab&repository=ha-philips-airpurifier&category=integration)
 
 ## Configuration
 
