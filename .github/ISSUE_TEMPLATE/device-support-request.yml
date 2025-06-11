@@ -1,0 +1,229 @@
+name: 🔧 Device Support Request
+description: Request support for a new/unsupported Philips air purifier or humidifier model
+title: "[Device Support] Model: "
+labels: ["device-support", "enhancement"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # 🔧 Device Support Request
+        
+        Thank you for helping us expand device support! This template is specifically for requesting support for **new or unsupported Philips air purifier/humidifier models**.
+        
+        ## 📋 When to use this template:
+        - ✅ Your Philips device model is **not listed** in our [supported devices](https://github.com/domalab/ha-philips-airpurifier#-supported-devices) section
+        - ✅ You want to help us add support for a new model
+        - ✅ Your device connects to your network but isn't recognized by the integration
+        
+        ## ❌ When NOT to use this template:
+        - 🚫 **Bug reports**: Your supported device isn't working properly → Use "Bug Report" template
+        - 🚫 **Feature requests**: Adding new features to already-supported devices → Use "Feature Request" template
+        - 🚫 **Configuration help**: Need help setting up a supported device → Use "Support/Question" or check [documentation](https://deepwiki.com/domalab/ha-philips-airpurifier)
+
+  - type: input
+    id: device_model
+    attributes:
+      label: 📱 Device Model Number
+      description: "Exact model number from device label/manual (e.g., AC2729/10, HU5710/10)"
+      placeholder: "AC2729/10"
+    validations:
+      required: true
+
+  - type: input
+    id: product_name
+    attributes:
+      label: 🏷️ Product Name
+      description: "Full product name as shown on packaging/manual"
+      placeholder: "Philips Air Purifier Series 2000i"
+    validations:
+      required: true
+
+  - type: input
+    id: device_type
+    attributes:
+      label: 🌬️ Device Type
+      description: "What type of device is this?"
+      placeholder: "Air Purifier / Humidifier / 2-in-1 Combo"
+    validations:
+      required: true
+
+  - type: input
+    id: firmware_version
+    attributes:
+      label: 🔧 Firmware Version
+      description: "Current firmware version (check device display/app if available)"
+      placeholder: "0.2.1 or Unknown"
+    validations:
+      required: false
+
+  - type: input
+    id: purchase_info
+    attributes:
+      label: 🛒 Purchase Information
+      description: "Where and approximately when did you purchase this device?"
+      placeholder: "Amazon, December 2024"
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: connectivity_check
+    attributes:
+      label: 🌐 Network Connectivity Verification
+      description: "Please confirm your device's network capabilities"
+      options:
+        - label: "Device is connected to my local WiFi network"
+          required: true
+        - label: "Device appears in my router's connected devices list"
+          required: true
+        - label: "I can control the device using the official Philips app"
+          required: false
+        - label: "Device supports local network communication (not cloud-only)"
+          required: false
+
+  - type: textarea
+    id: device_discovery
+    attributes:
+      label: 🔍 Device Discovery Attempt
+      description: "What happened when you tried to add the device to Home Assistant?"
+      placeholder: |
+        - Auto-discovery: Did the device appear in Home Assistant notifications?
+        - Manual setup: What error messages did you receive?
+        - IP address: What is the device's local IP address?
+      render: markdown
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: data_collection_confirmation
+    attributes:
+      label: 📊 Data Collection Confirmation
+      description: "Have you followed the data collection steps from our documentation?"
+      options:
+        - label: "I have read the [troubleshooting section](https://github.com/domalab/ha-philips-airpurifier#-troubleshooting) in the README"
+          required: true
+        - label: "I have set up a Python virtual environment as instructed"
+          required: false
+        - label: "I have installed the `aioairctrl` package"
+          required: false
+        - label: "I have collected device status data using `aioairctrl --host $DEVICE_IP status --json`"
+          required: false
+
+  - type: textarea
+    id: status_data_default
+    attributes:
+      label: 📋 Device Status Data - Default Mode
+      description: |
+        **Required**: Raw JSON output from `aioairctrl --host $DEVICE_IP status --json` with device in default/auto mode.
+        
+        **Instructions**:
+        1. Set device to default/auto mode using the Philips app
+        2. Run: `aioairctrl --host YOUR_DEVICE_IP status --json`
+        3. Paste the complete JSON output below
+      placeholder: |
+        {
+          "name": "bedroom",
+          "type": "AC2729",
+          "modelid": "AC2729/10",
+          ...
+        }
+      render: json
+    validations:
+      required: true
+
+  - type: textarea
+    id: status_data_modes
+    attributes:
+      label: 🔄 Device Status Data - Different Modes
+      description: |
+        **Optional but helpful**: JSON data from different device modes/speeds.
+        
+        **Instructions**:
+        1. Change device mode using the Philips app (e.g., sleep mode, speed 1, speed 2, etc.)
+        2. For each mode, run: `aioairctrl --host YOUR_DEVICE_IP status --json`
+        3. Label each JSON block with the mode name
+      placeholder: |
+        **Sleep Mode:**
+        ```json
+        { "mode": "sleep", ... }
+        ```
+        
+        **Speed 1:**
+        ```json
+        { "speed": 1, ... }
+        ```
+        
+        **Speed 2:**
+        ```json
+        { "speed": 2, ... }
+        ```
+      render: markdown
+    validations:
+      required: false
+
+  - type: textarea
+    id: error_messages
+    attributes:
+      label: ⚠️ Error Messages
+      description: "Any error messages from Home Assistant logs, aioairctrl, or the Philips app"
+      placeholder: |
+        Home Assistant logs:
+        ```
+        2025-06-11 10:30:00 ERROR (MainThread) [custom_components.philips_airpurifier] ...
+        ```
+
+        aioairctrl errors:
+        ```
+        ConnectionError: Unable to connect to device
+        ```
+      render: markdown
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional_info
+    attributes:
+      label: 📝 Additional Information
+      description: "Any other relevant information about your device or setup"
+      placeholder: |
+        - Special features your device has (e.g., humidifier, heating, special sensors)
+        - Any modifications or custom firmware
+        - Network setup details (VLANs, firewalls, etc.)
+        - Previous attempts to get the device working
+      render: markdown
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: contribution_willingness
+    attributes:
+      label: 🤝 Contribution Willingness
+      description: "How would you like to help with adding support for your device?"
+      options:
+        - label: "I'm willing to test development versions of the integration"
+        - label: "I can provide additional device data if needed"
+        - label: "I'm available for troubleshooting and debugging sessions"
+        - label: "I have programming experience and could help with code development"
+
+  - type: markdown
+    attributes:
+      value: |
+        ## 📚 Helpful Resources
+
+        - **📖 Documentation**: [DeepWiki Docs](https://deepwiki.com/domalab/ha-philips-airpurifier)
+        - **🔧 Troubleshooting**: [README Troubleshooting Section](https://github.com/domalab/ha-philips-airpurifier#-troubleshooting)
+        - **💬 Community**: [Home Assistant Community Forum](https://community.home-assistant.io/t/philips-air-purifier/53030)
+        - **📋 Supported Devices**: [Current Device List](https://github.com/domalab/ha-philips-airpurifier#-supported-devices)
+
+        ## ⏱️ What Happens Next?
+
+        1. **Review**: We'll review your device information and data
+        2. **Analysis**: We'll analyze the device capabilities and communication protocol
+        3. **Development**: If feasible, we'll work on adding support for your device
+        4. **Testing**: You'll be asked to test development versions
+        5. **Release**: Support will be included in a future release
+
+        **Note**: Adding support for new devices requires reverse engineering and may take time. Not all devices can be supported due to firmware limitations or lack of local API access.
+
+        Thank you for contributing to the project! 🙏

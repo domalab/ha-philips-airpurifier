@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📚 Documentation
+    url: https://deepwiki.com/domalab/ha-philips-airpurifier
+    about: Read the comprehensive documentation on DeepWiki
+  - name: 💬 Community Forum
+    url: https://community.home-assistant.io/t/philips-air-purifier/53030
+    about: Ask questions and get help from the Home Assistant community
+  - name: 🔧 Troubleshooting Guide
+    url: https://github.com/domalab/ha-philips-airpurifier#-troubleshooting
+    about: Follow the troubleshooting steps in our README
+  - name: 📋 Supported Devices
+    url: https://github.com/domalab/ha-philips-airpurifier#-supported-devices
+    about: Check if your device model is already supported
