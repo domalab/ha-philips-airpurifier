@@ -138,53 +138,68 @@ If your device changes IP addresses:
 
 > **⚠️ Firmware Compatibility Warning**: Some newer firmware versions may disable local CoAP communication. If purchasing a device specifically for Home Assistant integration, ensure you can return it if the integration doesn't work.
 
+### Device Support Summary
+
+| Device Category | Model Count | Series Supported |
+|-----------------|-------------|------------------|
+| **Air Purifiers** | 50+ models | AC0850, AC0950, AC1214, AC1715, AC2729, AC2889, AC2936, AC3033, AC3055, AC3210, AC3259, AC3420, AC3737, AC3829, AC3854, AC3858, AC4220, AC4550, AC5659 |
+| **2-in-1 Combos** | 7 models | AC0850C series, AMF765, AMF870 |
+| **Humidifiers** | 5 models | CX3120, CX3550, CX5120, HU1509, HU1510, HU5710 |
+| **Total** | **62+ models** | **27 series** |
+
 ### Air Purifiers
 
 | Model Series | Variants | Type |
 |--------------|----------|------|
-| **AC0850** | 11, 20, 31, 41, 70, 81, 85 | Compact Air Purifiers |
-| **AC0950** | 0950, 0951 | Compact Air Purifiers |
-| **AC1214** | 1214 | Compact Air Purifiers |
-| **AC1715** | 1715 | Compact Air Purifiers |
-| **AC2729** | 2729 | Mid-range Air Purifiers |
-| **AC2889** | 2889 | Mid-range Air Purifiers |
-| **AC2936** | 2936, 2939, 2958, 2959 | Mid-range Air Purifiers |
-| **AC3033** | 3033, 3036, 3039 | Advanced Air Purifiers |
-| **AC3055** | 3055, 3059 | Advanced Air Purifiers |
-| **AC3210** | 3210, 3220, 3221 | Advanced Air Purifiers |
-| **AC3259** | 3259 | Advanced Air Purifiers |
-| **AC3420** | 3420, 3421 | Advanced Air Purifiers |
-| **AC3737** | 3737 | Advanced Air Purifiers |
-| **AC3829** | 3829, 3836 | Advanced Air Purifiers |
-| **AC3854** | 3854/50, 3854/51 | Advanced Air Purifiers |
-| **AC3858** | 3858/50, 3858/51, 3858/83, 3858/86 | Advanced Air Purifiers |
-| **AC4220** | 4220, 4221, 4236 | Premium Air Purifiers |
-| **AC4550** | 4550, 4558 | Premium Air Purifiers |
-| **AC5659** | 5659, 5660 | Premium Air Purifiers |
+| **AC0850** | /11, /20, /31, /41, /70, /81, /85 | Compact Air Purifiers |
+| **AC0950** | AC0950, AC0951 | Compact Air Purifiers |
+| **AC1214** | AC1214 | Compact Air Purifiers |
+| **AC1715** | AC1715 | Compact Air Purifiers |
+| **AC2729** | AC2729 | Mid-range Air Purifiers |
+| **AC2889** | AC2889 | Mid-range Air Purifiers |
+| **AC2936** | AC2936, AC2939, AC2958, AC2959 | Mid-range Air Purifiers |
+| **AC3033** | AC3033, AC3036, AC3039 | Advanced Air Purifiers |
+| **AC3055** | AC3055, AC3059 | Advanced Air Purifiers |
+| **AC3210** | AC3210, AC3220, AC3221 | Advanced Air Purifiers |
+| **AC3259** | AC3259 | Advanced Air Purifiers |
+| **AC3420** | AC3420, AC3421 | Advanced Air Purifiers |
+| **AC3737** | AC3737 | Advanced Air Purifiers |
+| **AC3829** | AC3829, AC3836 | Advanced Air Purifiers |
+| **AC3854** | AC3854/50, AC3854/51 | Advanced Air Purifiers |
+| **AC3858** | AC3858/50, AC3858/51, AC3858/83, AC3858/86 | Advanced Air Purifiers |
+| **AC4220** | AC4220, AC4221, AC4236 | Premium Air Purifiers |
+| **AC4550** | AC4550, AC4558 | Premium Air Purifiers |
+| **AC5659** | AC5659, AC5660 | Premium Air Purifiers |
 
-### Air Purifier & Humidifier Combos
+### Air Purifier & Humidifier Combos (2-in-1)
 
-| Model | Type |
-|-------|------|
-| **AMF765** | 2-in-1 Air Purifier & Humidifier |
-| **AMF870** | 2-in-1 Air Purifier & Humidifier |
+| Model Series | Variants | Type |
+|--------------|----------|------|
+| **AC0850 Combo** | /11, /20, /31, /41, /70 | Compact 2-in-1 Devices |
+| **AMF765** | AMF765 | Advanced 2-in-1 Air Purifier & Humidifier |
+| **AMF870** | AMF870 | Premium 2-in-1 Air Purifier & Humidifier |
 
 ### Humidifiers
 
 | Model Series | Variants | Type |
 |--------------|----------|------|
-| **CX3120** | 3120 | Humidifier |
-| **CX3550** | 3550 | Humidifier |
-| **CX5120** | 5120 | Humidifier |
-| **HU1509** | 1509, 1510 | Compact Humidifier |
-| **HU5710** | 5710 | Advanced Humidifier |
+| **CX3120** | CX3120 | Compact Humidifier |
+| **CX3550** | CX3550 | Compact Humidifier |
+| **CX5120** | CX5120 | Advanced Humidifier |
+| **HU1509** | HU1509, HU1510 | Compact Humidifier |
+| **HU5710** | HU5710 | Premium Humidifier |
 
-### Special Variants
+### Special Variants & Notes
 
-Some models include special variants:
+**AC0850 Series Special Variants:**
+- **AWS_Philips_AIR**: Standard air purifier mode (AC0850/11, /20, /31, /41, /70)
+- **AWS_Philips_AIR_Combo**: 2-in-1 air purifier and humidifier mode (AC0850/11C, /20C, /31C, /41C, /70C)
 
-- **AWS_Philips_AIR**: Standard air purifier mode
-- **AWS_Philips_AIR_Combo**: 2-in-1 air purifier and humidifier mode
+**Model Naming Convention:**
+- Models with `/XX` suffix indicate regional variants (e.g., AC3854/50, AC3858/51)
+- Models with `C` suffix indicate combo (2-in-1) variants where applicable
+- AMF series are dedicated 2-in-1 air purifier and humidifier devices
+- CX and HU series are dedicated humidifiers
 
 ## 🔧 Available Entities
 
