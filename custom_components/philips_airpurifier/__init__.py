@@ -190,6 +190,16 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
+    # Set up services for this integration
+    try:
+        _LOGGER.info("Setting up services for Philips Air Purifier integration...")
+        from .services import async_setup_services
+        _LOGGER.debug("Services module imported successfully, calling async_setup_services...")
+        await async_setup_services(hass)
+        _LOGGER.info("Services registered successfully for Philips Air Purifier integration")
+    except Exception as ex:
+        _LOGGER.error("Failed to register services: %s", ex, exc_info=True)
+
     # Schedule health check after setup is complete
     async def _schedule_health_check():
         """Schedule the health check after a delay to allow entities to be created."""
@@ -215,5 +225,14 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
     await config_entry_data.coordinator.shutdown()
 
     hass.data[DOMAIN].pop(entry.entry_id)
+
+    # Unload services if this is the last config entry
+    if not hass.data[DOMAIN]:
+        try:
+            from .services import async_unload_services
+            await async_unload_services(hass)
+            _LOGGER.debug("Services unregistered for Philips Air Purifier integration")
+        except Exception as ex:
+            _LOGGER.error("Failed to unregister services: %s", ex)
 
     return True

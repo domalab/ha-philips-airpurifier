@@ -1,0 +1,292 @@
+# Service definitions for Philips Air Purifier integration
+
+filter_reset:
+  name: Reset Filter Life
+  description: >
+    Reset filter life counters and maintenance schedules for the specified air purifier.
+    This service should be used after replacing filters to reset the usage tracking.
+  target:
+    entity:
+      integration: philips_airpurifier_coap
+      domain: 
+        - fan
+        - sensor
+  fields:
+    filter_type:
+      name: Filter Type
+      description: Type of filter to reset (all, pre_filter, hepa_filter, active_carbon_filter, nanoprotect_filter)
+      required: false
+      default: "all"
+      example: "hepa_filter"
+      selector:
+        select:
+          options:
+            - "all"
+            - "pre_filter"
+            - "hepa_filter"
+            - "active_carbon_filter"
+            - "nanoprotect_filter"
+    reset_maintenance_schedule:
+      name: Reset Maintenance Schedule
+      description: Whether to reset the maintenance reminder schedule
+      required: false
+      default: true
+      selector:
+        boolean:
+
+calibrate_sensors:
+  name: Calibrate Air Quality Sensors
+  description: >
+    Calibrate air quality sensors (PM2.5, allergen index, gas sensors) on the air purifier.
+    This service helps ensure accurate air quality readings by recalibrating the sensors.
+  target:
+    entity:
+      integration: philips_airpurifier_coap
+      domain: 
+        - fan
+        - sensor
+  fields:
+    sensor_type:
+      name: Sensor Type
+      description: Type of sensor to calibrate (all, pm25, allergen_index, gas, tvoc)
+      required: false
+      default: "all"
+      example: "pm25"
+      selector:
+        select:
+          options:
+            - "all"
+            - "pm25"
+            - "allergen_index"
+            - "gas"
+            - "tvoc"
+    calibration_mode:
+      name: Calibration Mode
+      description: Calibration mode (auto, manual, factory_reset)
+      required: false
+      default: "auto"
+      selector:
+        select:
+          options:
+            - "auto"
+            - "manual"
+            - "factory_reset"
+    reference_value:
+      name: Reference Value
+      description: Reference value for manual calibration (only used in manual mode)
+      required: false
+      example: 10
+      selector:
+        number:
+          min: 0
+          max: 500
+          step: 1
+          unit_of_measurement: "µg/m³"
+
+set_display_brightness:
+  name: Set Display Brightness
+  description: >
+    Control the display brightness level of the air purifier. This allows you to
+    adjust the brightness of the device's LED display and indicators.
+  target:
+    entity:
+      integration: philips_airpurifier_coap
+      domain: 
+        - fan
+        - light
+  fields:
+    brightness_level:
+      name: Brightness Level
+      description: Display brightness level (0-100, where 0 is off and 100 is maximum brightness)
+      required: true
+      example: 75
+      selector:
+        number:
+          min: 0
+          max: 100
+          step: 1
+          unit_of_measurement: "%"
+    auto_dim:
+      name: Auto Dim
+      description: Enable automatic dimming based on ambient light
+      required: false
+      default: false
+      selector:
+        boolean:
+    night_mode:
+      name: Night Mode
+      description: Enable night mode (very dim display during nighttime hours)
+      required: false
+      default: false
+      selector:
+        boolean:
+    night_mode_start:
+      name: Night Mode Start Time
+      description: Start time for night mode (24-hour format)
+      required: false
+      default: "22:00"
+      example: "22:00"
+      selector:
+        time:
+    night_mode_end:
+      name: Night Mode End Time
+      description: End time for night mode (24-hour format)
+      required: false
+      default: "07:00"
+      example: "07:00"
+      selector:
+        time:
+
+schedule_maintenance:
+  name: Schedule Maintenance
+  description: >
+    Set up maintenance reminder schedules for the air purifier. This service allows
+    you to configure when maintenance reminders should be triggered.
+  target:
+    entity:
+      integration: philips_airpurifier_coap
+      domain: 
+        - fan
+        - sensor
+  fields:
+    maintenance_type:
+      name: Maintenance Type
+      description: Type of maintenance to schedule
+      required: true
+      example: "filter_replacement"
+      selector:
+        select:
+          options:
+            - "filter_replacement"
+            - "sensor_calibration"
+            - "deep_cleaning"
+            - "general_maintenance"
+    reminder_interval:
+      name: Reminder Interval
+      description: How often to remind (in days)
+      required: true
+      example: 90
+      selector:
+        number:
+          min: 1
+          max: 365
+          step: 1
+          unit_of_measurement: "days"
+    next_reminder_date:
+      name: Next Reminder Date
+      description: Date for the next maintenance reminder (if not specified, calculated from interval)
+      required: false
+      example: "2025-04-01"
+      selector:
+        date:
+    enable_notifications:
+      name: Enable Notifications
+      description: Whether to send notifications when maintenance is due
+      required: false
+      default: true
+      selector:
+        boolean:
+    notification_advance_days:
+      name: Notification Advance Days
+      description: How many days before maintenance is due to send notifications
+      required: false
+      default: 7
+      example: 7
+      selector:
+        number:
+          min: 1
+          max: 30
+          step: 1
+          unit_of_measurement: "days"
+    maintenance_notes:
+      name: Maintenance Notes
+      description: Optional notes about the maintenance schedule
+      required: false
+      example: "Replace HEPA filter every 3 months"
+      selector:
+        text:
+          multiline: true
+
+set_child_lock:
+  name: Set Child Lock
+  description: >
+    Enable or disable child lock on the air purifier to prevent accidental
+    changes to settings by children.
+  target:
+    entity:
+      integration: philips_airpurifier_coap
+      domain: 
+        - fan
+        - switch
+  fields:
+    enabled:
+      name: Enabled
+      description: Whether to enable or disable child lock
+      required: true
+      example: true
+      selector:
+        boolean:
+
+set_timer:
+  name: Set Timer
+  description: >
+    Set an automatic timer for the air purifier to turn off after a specified duration.
+    This is useful for energy saving and scheduled operation.
+  target:
+    entity:
+      integration: philips_airpurifier_coap
+      domain: 
+        - fan
+  fields:
+    duration_hours:
+      name: Duration (Hours)
+      description: Number of hours after which the device should turn off (0 to disable timer)
+      required: true
+      example: 2
+      selector:
+        number:
+          min: 0
+          max: 24
+          step: 0.5
+          unit_of_measurement: "hours"
+    action_after_timer:
+      name: Action After Timer
+      description: What to do when timer expires
+      required: false
+      default: "turn_off"
+      selector:
+        select:
+          options:
+            - "turn_off"
+            - "sleep_mode"
+            - "auto_mode"
+
+reset_device:
+  name: Reset Device
+  description: >
+    Reset the air purifier to factory defaults. This will clear all settings
+    and return the device to its original configuration.
+  target:
+    entity:
+      integration: philips_airpurifier_coap
+      domain: 
+        - fan
+  fields:
+    reset_type:
+      name: Reset Type
+      description: Type of reset to perform
+      required: false
+      default: "soft_reset"
+      selector:
+        select:
+          options:
+            - "soft_reset"
+            - "factory_reset"
+            - "network_reset"
+    confirm_reset:
+      name: Confirm Reset
+      description: Confirmation that you want to reset the device (required for safety)
+      required: true
+      example: true
+      selector:
+        boolean:

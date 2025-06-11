@@ -299,5 +299,133 @@
       "title": "Duplicate Entities Detected",
       "description": "Duplicate entities have been detected. This typically happens when entity unique IDs conflict. Click 'Fix' to remove duplicate entities automatically."
     }
+  },
+  "services": {
+    "filter_reset": {
+      "name": "Reset Filter Life",
+      "description": "Reset filter life counters and maintenance schedules for the specified air purifier.",
+      "fields": {
+        "filter_type": {
+          "name": "Filter Type",
+          "description": "Type of filter to reset (all, pre_filter, hepa_filter, active_carbon_filter, nanoprotect_filter)"
+        },
+        "reset_maintenance_schedule": {
+          "name": "Reset Maintenance Schedule",
+          "description": "Whether to reset the maintenance reminder schedule"
+        }
+      }
+    },
+    "calibrate_sensors": {
+      "name": "Calibrate Air Quality Sensors",
+      "description": "Calibrate air quality sensors (PM2.5, allergen index, gas sensors) on the air purifier.",
+      "fields": {
+        "sensor_type": {
+          "name": "Sensor Type",
+          "description": "Type of sensor to calibrate (all, pm25, allergen_index, gas, tvoc)"
+        },
+        "calibration_mode": {
+          "name": "Calibration Mode",
+          "description": "Calibration mode (auto, manual, factory_reset)"
+        },
+        "reference_value": {
+          "name": "Reference Value",
+          "description": "Reference value for manual calibration (only used in manual mode)"
+        }
+      }
+    },
+    "set_display_brightness": {
+      "name": "Set Display Brightness",
+      "description": "Control the display brightness level of the air purifier.",
+      "fields": {
+        "brightness_level": {
+          "name": "Brightness Level",
+          "description": "Display brightness level (0-100, where 0 is off and 100 is maximum brightness)"
+        },
+        "auto_dim": {
+          "name": "Auto Dim",
+          "description": "Enable automatic dimming based on ambient light"
+        },
+        "night_mode": {
+          "name": "Night Mode",
+          "description": "Enable night mode (very dim display during nighttime hours)"
+        },
+        "night_mode_start": {
+          "name": "Night Mode Start Time",
+          "description": "Start time for night mode (24-hour format)"
+        },
+        "night_mode_end": {
+          "name": "Night Mode End Time",
+          "description": "End time for night mode (24-hour format)"
+        }
+      }
+    },
+    "schedule_maintenance": {
+      "name": "Schedule Maintenance",
+      "description": "Set up maintenance reminder schedules for the air purifier.",
+      "fields": {
+        "maintenance_type": {
+          "name": "Maintenance Type",
+          "description": "Type of maintenance to schedule"
+        },
+        "reminder_interval": {
+          "name": "Reminder Interval",
+          "description": "How often to remind (in days)"
+        },
+        "next_reminder_date": {
+          "name": "Next Reminder Date",
+          "description": "Date for the next maintenance reminder"
+        },
+        "enable_notifications": {
+          "name": "Enable Notifications",
+          "description": "Whether to send notifications when maintenance is due"
+        },
+        "notification_advance_days": {
+          "name": "Notification Advance Days",
+          "description": "How many days before maintenance is due to send notifications"
+        },
+        "maintenance_notes": {
+          "name": "Maintenance Notes",
+          "description": "Optional notes about the maintenance schedule"
+        }
+      }
+    },
+    "set_child_lock": {
+      "name": "Set Child Lock",
+      "description": "Enable or disable child lock on the air purifier.",
+      "fields": {
+        "enabled": {
+          "name": "Enabled",
+          "description": "Whether to enable or disable child lock"
+        }
+      }
+    },
+    "set_timer": {
+      "name": "Set Timer",
+      "description": "Set an automatic timer for the air purifier to turn off after a specified duration.",
+      "fields": {
+        "duration_hours": {
+          "name": "Duration (Hours)",
+          "description": "Number of hours after which the device should turn off (0 to disable timer)"
+        },
+        "action_after_timer": {
+          "name": "Action After Timer",
+          "description": "What to do when timer expires"
+        }
+      }
+    },
+    "reset_device": {
+      "name": "Reset Device",
+      "description": "Reset the air purifier to factory defaults.",
+      "fields": {
+        "reset_type": {
+          "name": "Reset Type",
+          "description": "Type of reset to perform"
+        },
+        "confirm_reset": {
+          "name": "Confirm Reset",
+          "description": "Confirmation that you want to reset the device (required for safety)"
+        }
+      }
+    }
   }
 }
